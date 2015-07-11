@@ -54,12 +54,12 @@ elif sss == '3':
             break
         if guess > the_number:
             print(guess, "는 너무 높았어. 다시해봐. :ㅣ")
-            iff = iff - 1
+            iff -= 1
             print("남은 기회는: ", iff)
             print("")
         if guess < the_number:
             print(guess, "는 너무 낮았어. 다시해봐. :ㅣ")
-            iff = iff - 1
+            iff -= 1
             print("남은 기회는: ", iff)
             print("")
         guess = int(input("다시 추측 해봐. : "))
