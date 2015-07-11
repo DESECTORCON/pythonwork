@@ -1,5 +1,6 @@
 import turtle
 import random
+
 sss = input("실행하고싶은 프로그램을 입력해 주십시오:")
 if sss == '1':
     t = turtle.Pen()
