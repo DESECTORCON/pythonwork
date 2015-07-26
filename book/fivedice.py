@@ -15,4 +15,4 @@ while keep_going:
     elif (dice[0] == dice[2]) or (dice[1] == dice[3]) or (dice[2] == dice[4]):
         print("트리 어브카인드!")
     game_count += game_count + 1
-    keep_going = (input("다시할꺼면 [ENTER];어떤키를 눌러도 개임끝!!:") == "")
+    keep_going = (input("다시할꺼면 [ENTER];어떤키를 눌러도 개임끝!!:") == "") 
