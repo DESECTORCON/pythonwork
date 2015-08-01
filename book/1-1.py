@@ -9,7 +9,7 @@ for m in range(100):
     t.forward(m*4)
     position = t.position()
     heading = t.heading()
-    print(position,heading)
+    print(position, heading)
     for n in range(int(m/2)):
         t.pendown()
         t.pencolor(colors[n%sides])
