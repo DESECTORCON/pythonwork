@@ -6,7 +6,7 @@ t.hideturtle()
 turtle.bgcolor("black")
 
 
-def draw_smiley(x, y):
+def draw_smiley(x, y):  # 경고 표시가 난 부분1
     t.penup()
     t.setpos(x, y)
     t.pendown()
