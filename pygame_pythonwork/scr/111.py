@@ -7,16 +7,12 @@ colorkey = pic.get_at((0, 0))
 pic.set_colorkey(colorkey)
 picx = 0
 picy = 0
-BLACK = (0, 0, 0)
-timer = pygame.time.Clock()
 while keep_going:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             keep_going = False
-    picx += 1
-    picy += 1
-    screen.fill(BLACK)
+    picx += 0.2
+    picy += 0.2
     screen.blit(pic, (picx, picy))
     pygame.display.update()
-    timer.tick(60)
 pygame.quit()
