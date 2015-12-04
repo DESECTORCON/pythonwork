@@ -1,7 +1,7 @@
 import random
 iff = 5
 the_number = random.randint(1, 10)
-guess = int(input("숫자를 1 부터 10중 하나를 추축하여 보세요.: "))
+guess = int(input("숫자를 invent_Your_own_computer_games_with_python 부터 10중 하나를 추축하여 보세요.: "))
 while guess != the_number:
     if iff == 0:
         print("귀회가 다 없어졌어. :(")

@@ -2,7 +2,7 @@ import turtle
 import random
 
 sss = input("실행하고싶은 프로그램을 입력해 주십시오:")
-if sss == '1':
+if sss == 'invent_Your_own_computer_games_with_python':
     t = turtle.Pen()
     t.penup()
 
@@ -47,7 +47,7 @@ elif sss =='2':
 elif sss == '3':
     iff = 5
     the_number = random.randint(1, 10)
-    guess = int(input("숫자를 1 부터 10중 하나를 추축하여 보세요.: "))
+    guess = int(input("숫자를 invent_Your_own_computer_games_with_python 부터 10중 하나를 추축하여 보세요.: "))
     while guess != the_number:
         if iff == 0:
             print("기회가 다 없어졌어. :(")
@@ -72,7 +72,7 @@ elif sss == '3':
 elif sss == '4':
     nxx = "n"
     while nxx != "y":
-        grade = eval(input("점수를 입력해 주십시오.(1-100): "))
+        grade = eval(input("점수를 입력해 주십시오.(invent_Your_own_computer_games_with_python-100): "))
         if grade >= 90:
             print("점수는:(두구.두구.두구)A :) ")
             print("잘했어요!")

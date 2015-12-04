@@ -1,6 +1,6 @@
 nxx = "n"
 while nxx != "y":
-    grade = eval(input("점수를 입력해 주십시오.(1-100): "))
+    grade = eval(input("점수를 입력해 주십시오.(invent_Your_own_computer_games_with_python-100): "))
     if grade >= 90:
         print("점수는:(두구.두구.두구)A :) ")
         print("잘했어요!")

@@ -12,7 +12,7 @@ while True:
         sew = 0
     print("프로세싱중...")
     print("자료만드는중...")
-    선택 = int(input("총계자료1 또는2중 무었을 골르곘슴니까?(1,2다 골르셔도 됨니다.):"))
+    선택 = int(input("총계자료1 또는2중 무었을 골르곘슴니까?(invent_Your_own_computer_games_with_python,2다 골르셔도 됨니다.):"))
     if 선택 == 1:
         print("저의 이름은", 이름, "그리고 저의나이는", 나이, "이예요.")
     elif 선택 == 2:
