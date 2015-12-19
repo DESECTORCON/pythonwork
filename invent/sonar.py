@@ -17,7 +17,7 @@ def drawBoard(board):
             extraSpace = ' '
         else:
             extraSpace = ''
-        print('s%s% s% s%' % (extraSpace, i, getRow(board, i), i))
+        print('%s%s %s %s' % (extraSpace, i, getRow(board, i), i))
     print()
     print('   ' + ('0123456789' * 6))
     print(hline)
@@ -150,7 +150,7 @@ while True:
         if len(theChests) > 1: extraSchest = 's'
         else: extraSchest = ''
 
-        print('You have %s sonar device%s left. %s treasure chest%s remaining' % (sonarDevices, extraSsonar, len(theChests, extraSchest)))
+        print('You have %s sonar device%s left. %s treasure chest%s remaining.' % (sonarDevices, extraSsonar, len(theChests), extraSchest))
 
         x, y = enterPlayerMove()
         previousMoves.append([x, y])
@@ -163,8 +163,8 @@ while True:
                 for x, y in previousMoves:
                     makeMove(theBoard, theChests, x, y)
 
-                drawBoard(theBoard)
-                print(previousMoves)
+            drawBoard(theBoard)
+            print(previousMoves)
 
             if len(theChests) == 0:
                 print('You have found all the sunken treasure chests! 축하해!!!!')
@@ -175,3 +175,10 @@ while True:
     if sonarDevices == 0:
         print('we\'ve ruln out of sonar devices! Now we have to turn the ship around and head')
         print('')
+        print('for home with treasure chests still out there! Game over.')
+        print('')
+        print(' The remaining chests were here:')
+        for x, y in theChests:
+            print('  %s, %s' % (x, y))
+    if not playAgain():
+        sys.exit()
