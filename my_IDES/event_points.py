@@ -35,7 +35,6 @@ elif user_i_input == 'y' or user_i_input == 'yes':
         if input_exit == 'T':
             break
         else:
-            print('user의 남은 포인트:' + str(points))
             time.sleep(1.5)
 
 # 리해드를 했을때 프린트를 하는곳
