@@ -1,4 +1,4 @@
-'''s.e computer mane'''
+'''s.e computer main'''
 
 
 def __user__(name, age, def1):
