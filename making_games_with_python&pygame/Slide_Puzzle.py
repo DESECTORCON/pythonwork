@@ -156,4 +156,177 @@ def getBlankPosition(board):
 
 def makeMove(board, move):
 
-    # 만드는중 줄:159
+    blankx, blanky = getBlankPosition(board)
+
+    if move == UP:
+        board[blankx][blanky], board[blankx][blanky + 1] = board[blankx][blanky + 1], board[blankx][blanky]
+    elif move == DOWN:
+        board[blankx][blanky], board[blankx][blanky - 1] = board[blankx][blanky - 1], board[blankx][blanky]
+    elif move == LEFT:
+        board[blankx][blanky], board[blankx + 1][blanky] = board[blankx + 1][blanky], board[blankx][blanky]
+    elif move == RIGHT:
+        board[blankx][blanky], board[blankx - 1][blanky] = board[blankx - 1][blanky], board[blankx][blanky]
+
+
+def isValidMove(board, move):
+    blankx, blanky = getBlankPosition(board)
+    return (move == UP and blanky != len(board[0]) - 1) or \
+           (move == DOWN and blanky != 0) or \
+           (move == LEFT and blankx != len(board) - 1) or \
+           (move == RIGHT and blankx != 0)
+
+
+def getRandomMove(board, lastMove=None):
+
+    validMoves = [UP, DOWN, LEFT, RIGHT]
+
+    if lastMove == UP or not isValidMove(board, DOWN):
+        validMoves.remove(DOWN)
+    if lastMove == DOWN or not isValidMove(board, UP):
+        validMoves.remove(UP)
+    if lastMove == LEFT or not isValidMove(board, RIGHT):
+        validMoves.remove(RIGHT)
+    if lastMove == RIGHT or not isValidMove(board, LEFT):
+        validMoves.remove(LEFT)
+
+
+    return random.choice(validMoves)
+
+
+def getLeftTopOfTile(tilex, tiley):
+
+    left = XMARGIN + (tilex * TILESIZE) + (tilex - 1)
+    top = XMARGIN + (tiley * TILESIZE) + (tiley - 1)
+    return (left, top)
+
+
+def getSpotClicked(board, x, y):
+
+    for tilex in range(len(board)):
+        for tiley in range(len(board[0])):
+            left, top = getLeftTopOfTile(tilex, tiley)
+            tileRect = pygame.Rect(left, top, TILESIZE, TILESIZE)
+            if tileRect.collidepoint(x, y):
+                return (tilex, tiley)
+    return (None, None)
+
+
+def drawTile(tilex, tiley, number, adjx=0, adjy=0):
+
+    left, top = getLeftTopOfTile(tilex, tiley)
+    pygame.draw.rect(DISPLAYSURF, TILECOLOR, (left + adjx, top + adjy, TILESIZE, TILESIZE))
+    textSurf = BASICFONT.render(str(number), True, TEXTCOLOR)
+    textRect = textSurf.get_rect()
+    textRect.center = left + int(TILESIZE / 2) + adjx, top + int(TILESIZE / 2) + adjy
+    DISPLAYSURF.blit(textSurf, textRect)
+
+
+def makeText(text, color, bgcolor, top, left):
+
+    textSurf = BASICFONT.render(text, True, color, bgcolor)
+    textRect = textSurf.get_rect()
+    textRect.topleft = (top, left)
+    return (textSurf, textRect)
+
+
+def drawBoard(board, message):
+    DISPLAYSURF.fill(BGCOLOR)
+    if message:
+        textSurf, textRect = makeText(message, MESSAGECOLOR, BGCOLOR, 5, 5)
+
+        DISPLAYSURF.blit(textSurf, textRect)
+
+    for tilex in range(len(board)):
+        for tiley in range(len(board[0])):
+            if board[tilex][tiley]:
+                drawTile(tilex, tiley, board[tilex][tiley])
+
+    left, top = getLeftTopOfTile(0, 0)
+    width = BOARDWIDTH * TILESIZE
+    height = BOARDHEIGHT * TILESIZE
+    pygame.draw.rect(DISPLAYSURF, BOARDERCOLOR, (left - 5, top - 5, width + 11, height + 11), 4)
+
+    DISPLAYSURF.blit(RESET_SURF, REST_RECT)
+    DISPLAYSURF.blit(NEW_SURF, NEW_RECT)
+    DISPLAYSURF.blit(SOLVE_SURF, SOLVE_RECT)
+
+
+def slideAnimation(board, direction, message, animarionSpeed):
+
+
+    blankx, blanky = getBlankPosition(board)
+    if direction == UP:
+        movex = blankx
+        movey = blanky + 1
+    elif direction == DOWN:
+        movex = blankx
+        movey = blanky - 1
+    elif direction == LEFT:
+        movex = blankx + 1
+        movey = blanky
+    elif direction == RIGHT:
+        movex = blankx - 1
+        movey = blanky
+
+
+    drawBoard(board, message)
+    baseSurf = DISPLAYSURF.copy()
+
+    moveLeft, moveTop = getLeftTopOfTile(movex, movey)
+    pygame.draw.rect(baseSurf, BGCOLOR, (moveLeft, moveTop, TILESIZE, TILESIZE))
+
+    for i in range(0, TILESIZE, animarionSpeed):
+
+        checkForQuit()
+        DISPLAYSURF.blit(baseSurf, (0, 0))
+        if direction == UP:
+            drawTile(movex, movey, board[movex][movey], 0, -i)
+        if direction == DOWN:
+            drawTile(movex, movey, board[movex][movey], 0, i)
+        if direction == LEFT:
+            drawTile(movex, movey, board[movex][movey], -i, 0)
+        if direction == RIGHT:
+            drawTile(movex, movey, board[movex][movey], i, 0)
+
+        pygame.display.update()
+        FPSCOLOCK.tick(FPS)
+
+
+def generateNewPuzzle(numSlides):
+
+
+    sequence = []
+    board = getStartingBoard()
+    drawBoard(board, '')
+    pygame.display.update()
+    pygame.time.wait(500)
+    lastMove = None
+    for i in range(numSlides):
+        move = getRandomMove(board, lastMove)
+        slideAnimation(board, move, 'Generating new puzzle...', int(TILESIZE / 3))
+        makeMove(board, move)
+        sequence.append(move)
+        lastMove = move
+    return (board, sequence)
+
+
+def resetAnimation(board, allMoves):
+
+    revAllMoves = allMoves[:]
+    revAllMoves.reverse()
+
+    for move in revAllMoves:
+        if move == UP:
+            oppositeMove = DOWN
+        elif move == DOWN:
+            oppositeMove = UP
+        elif move == LEFT:
+            oppositeMove = RIGHT
+        elif move == RIGHT:
+            oppositeMove = LEFT
+        slideAnimation(board, oppositeMove, '', int(TILESIZE / 2))
+        makeMove(board, oppositeMove)
+
+
+if __name__ == '__main__':
+    main()
