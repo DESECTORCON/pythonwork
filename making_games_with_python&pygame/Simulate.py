@@ -12,6 +12,7 @@ FLASHSPEED = 500
 FLASHDELAY = 200
 BUTTONSIZE = 200
 BUTTONGAPSIZE = 20
+TIMEOUT = 4
 
 
 #                 R    G    B
@@ -111,7 +112,7 @@ def main():
 
                 if currentStep == len(pattern):
 
-                    changeBackgroundAnimation()
+                    changeBackGroundAnimation()
                     score += 1
                     waitingForInput = False
                     currentStep = 0
@@ -126,7 +127,7 @@ def main():
                 waitingForInput = False
                 score = 0
                 pygame.time.wait(1000)
-                changeBackgroundAnimation()
+                changeBackGroundAnimation()
 
     pygame.display.update()
     FPSCLOCK.tick(FPS)
@@ -208,4 +209,41 @@ def changeBackGroundAnimation(animationSpeed=40):
     bgColor = newBgColor
 
 
-#line 212
+def gameOverAnimation(color=WHITE, animationSpeed=50):
+
+    origSurf = DISPLAYSURF.copy()
+    flashSurf = pygame.Surface(DISPLAYSURF.get_size())
+    flashSurf = flashSurf.convert_alpha()
+    BEEP1.play()
+    BEEP2.play()
+    BEEP3.play()
+    BEEP4.play()
+    r, g, b = color
+    for i in range(3):
+        for start, end, step in ((0, 255, 1), (255, 0, -1)):
+
+            for alpha in range(start, end, animationSpeed * step):
+
+                checkForQuit()
+                flashSurf.fill((r, g, b, alpha))
+                DISPLAYSURF.blit(origSurf, (0, 0))
+                DISPLAYSURF.blit(flashSurf, (0, 0))
+                drawButtons()
+                pygame.display.update()
+                FPSCLOCK.tick(FPS)
+
+
+def getButtonClicked(x, y):
+    if YELLOWRECT.collidepoint( (x, y) ):
+        return YELLOW
+    elif BLUERECT.collidepoint( (x, y) ):
+        return BLUE
+    elif REDRECT.collidepoint( (x, y) ):
+        return RED
+    elif GREENRECT.collidepoint( (x, y) ):
+        return GREEN
+
+
+
+if __name__ == '__main__':
+    main()
